@@ -1,0 +1,121 @@
+/* Slide-in Animation */
+@keyframes slideIn {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.login {
+  height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .card {
+    display: flex;
+    width: 50%;
+    border-radius: 10px;
+    min-height: 400px;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    animation: slideIn 1s ease-out; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+
+  .left {
+    flex: 1;
+    background: linear-gradient(rgba(106, 44, 229, 0.5), rgb(39, 11, 96, 0.5)),
+      url('/login.jpg') center;
+    background-size: cover;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    color: white;
+
+    h1 {
+      font-size: 50px;
+      font-weight: 500;
+      color: white;
+      text-align: center;
+    }
+    p {
+      font-size: 20px;
+      font-weight: 300;
+      text-align: center;
+    }
+    span {
+      font-size: 20px;
+    }
+
+    button {
+      width: 50%;
+      border: none;
+      padding: 10px;
+      background-color: white;
+      color: rebeccapurple;
+      font-weight: bold;
+      cursor: pointer;
+  }
+   button:hover {
+      background-color: rgb(255, 255, 255, 0.6);
+      transition: background-color 0.3s ease;
+    }
+
+   
+  }
+
+  .right {
+    flex: 1;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255);
+    gap: 50px;
+    justify-content: center;
+
+    h1 {
+      display: flex;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      input {
+        border: none;
+        border-bottom: 1px solid lightgray;
+        padding: 20px 10px;
+        border-radius: 5px;
+        outline: none;
+      }
+      button {
+        width: 50%;
+        border: none;
+        padding: 10px;
+        background-color: rebeccapurple;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: rgba(106, 44, 229, 0.7);
+        transition: background-color 0.3s ease;
+      }
+    }
+  }
+  }
+
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+}
