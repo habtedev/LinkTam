@@ -11,6 +11,9 @@
   &::-webkit-scrollbar{
     display: none;
   }
+  @include mobile{
+          display: none;
+        }
   .continear {
   padding: 20px;
   .menu {
@@ -61,3 +64,5 @@
 
 }
 }
+
+
