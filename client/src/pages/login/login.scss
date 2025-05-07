@@ -16,110 +16,151 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 
   .card {
     display: flex;
-    width: 50%;
+    width: 60%;
     border-radius: 10px;
     min-height: 400px;
     height: 75vh;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    animation: slideIn 1s ease-out; 
+    animation: slideIn 1s ease-out;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-  
-
-  .left {
-    flex: 1;
-    background: linear-gradient(rgba(106, 44, 229, 0.5), rgb(39, 11, 96, 0.5)),
-      url('/login.jpg') center;
-    background-size: cover;
-    height: 100%;
-    padding: 50px;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    color: white;
-
-    h1 {
-      padding: 10px 0px;
-      font-size: 50px;
-      font-weight: 500;
-      color: white;
-      text-align: center;
-    }
-    p {
-      font-size: 20px;
-      font-weight: 300;
-      text-align: center;
-    }
-    span {
-      font-size: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      width: 100%;
+      height: auto;
+      padding: 20px;
     }
 
-    button {
-      width: 50%;
-      border: none;
-      padding: 10px;
-      background-color: white;
-      color: rebeccapurple;
-      font-weight: bold;
-      cursor: pointer;
-  }
-   button:hover {
-      background-color: rgb(255, 255, 255, 0.6);
-      transition: background-color 0.3s ease;
-    }
-
-   
-  }
-
-  .right {
-    flex: 1;
-    padding: 50px;
-    display: flex;
-    flex-direction: column;
-    background-color: rgb(255, 255, 255);
-    gap: 50px;
-    height: 100%;
-    justify-content: center;
-
-    h1 {
-      display: flex;
-    }
-
-    form {
+    .left {
+      flex: 1;
+      background: linear-gradient(rgba(106, 44, 229, 0.5), rgba(39, 11, 96, 0.5)), url('/login.jpg') center;
+      background-size: cover;
+      height: 100%;
+      padding: 50px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 30px;
+      color: white;
 
-      input {
-        border: none;
-        border-bottom: 1px solid lightgray;
-        padding: 20px 10px;
-        border-radius: 5px;
-        outline: none;
+      h1 {
+        padding: 10px 0;
+        font-size: 50px;
+        font-weight: 500;
+        text-align: center;
       }
+
+      p {
+        font-size: 20px;
+        font-weight: 300;
+        text-align: center;
+      }
+
+      span {
+        font-size: 20px;
+      }
+
       button {
         width: 50%;
         border: none;
         padding: 10px;
-        background-color: rebeccapurple;
-        color: white;
+        background-color: white;
+        color: rebeccapurple;
         font-weight: bold;
         cursor: pointer;
-      }
-      button:hover {
-        background-color: rgba(106, 44, 229, 0.7);
         transition: background-color 0.3s ease;
       }
+
+      button:hover {
+        background-color: rgba(255, 255, 255, 0.6);
+      }
+
+      @media (max-width: 768px) {
+        display: none;
+      }
     }
-  }
+
+    .right {
+      flex: 1;
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+      gap: 30px;
+      height: 100%;
+      justify-content: center;
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        input {
+          border: none;
+          border-bottom: 1px solid lightgray;
+          padding: 15px 10px;
+          border-radius: 5px;
+          outline: none;
+        }
+
+        button {
+          width: 50%;
+          border: none;
+          padding: 10px;
+          background-color: rebeccapurple;
+          color: white;
+          font-weight: bold;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+          background-color: rgba(106, 44, 229, 0.7);
+        }
+      }
+
+      .mobile-register-link {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+        
+        span {
+          font-size: 16px;
+          color: #555;
+        }
+
+        button {
+          padding: 10px 20px;
+          background-color: rebeccapurple;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          font-weight: bold;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+          background-color: rgba(106, 44, 229, 0.8);
+        }
+
+        @media (max-width: 768px) {
+          display: flex;
+        }
+      }
+    }
   }
 
   .card:hover {
     transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
   }
 }

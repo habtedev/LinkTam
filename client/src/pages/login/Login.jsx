@@ -5,11 +5,12 @@ import { AuthContext } from '../../context/AuthContext'
 import { useContext } from 'react'
 
 const Login = () => {
-const { login } = useContext(AuthContext)
+  const { login } = useContext(AuthContext)
 
-const handleLogin = () => {
-  login()
-}
+  const handleLogin = (e) => {
+    e.preventDefault()
+    login()
+  }
 
   return (
     <>
@@ -17,8 +18,8 @@ const handleLogin = () => {
       <div className="login">
         <div className="card">
           <div className="left">
-            <h1>share your habits</h1>
-            <p> welcome to our platform where you can share your habits </p>
+            <h1>Share Your Habits</h1>
+            <p>Welcome to our platform where you can share your habits.</p>
             <span>Don't have an account?</span>
             <Link to="/register">
               <button>Register</button>
@@ -26,13 +27,18 @@ const handleLogin = () => {
           </div>
           <div className="right">
             <h1>Login</h1>
-            <form>
-              <input type="text" placeholder="username" />
-              <input type="password" placeholder="password" />
-              <button type="submit" onClick={handleLogin}>
-                Login
-              </button>
+            <form onSubmit={handleLogin}>
+              <input type="text" placeholder="Username" required />
+              <input type="password" placeholder="Password" required />
+              <button type="submit">Login</button>
             </form>
+
+            <div className="mobile-register-link">
+              <span>New here?</span>
+              <Link to="/register">
+                <button>Create a New Account</button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
