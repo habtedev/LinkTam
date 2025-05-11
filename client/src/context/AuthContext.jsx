@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { createContext, useEffect, useState } from 'react'
 
 export const AuthContext = createContext()
@@ -7,14 +8,28 @@ export const AuthContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem('user')) || null,
   )
 
-  const login = () => {
-    //TO DO
-    setCurrentUser({
-      id: 1,
-      name: 'John ',
-      profilePic:
-        'https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600',
-    })
+  const login = async (formData) => {
+    try {
+      const response = await axios.post('http://localhost:8600/api/auth/login', formData, {
+        withCredentials: true,
+      })
+      setCurrentUser(response.data)
+      return response.data
+    } catch (error) {
+      // Handle backend error responses for user not found or password mismatch
+      if (error.response && error.response.data) {
+        if (error.response.data.error === 'User not found!') {
+          return { userNotFound: true }
+        }
+        if (error.response.data.error === 'Invalid password' || error.response.data.error === 'Invalid username or password') {
+          return { passwordMismatch: true }
+        }
+        // Return any other backend error
+        return { error: error.response.data.error || error.response.data.message }
+      }
+      // For network or unexpected errors, throw so the frontend can catch
+      throw error
+    }
   }
 
   useEffect(() => {
