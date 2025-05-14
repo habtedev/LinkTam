@@ -6,7 +6,7 @@ import {
   Navigate,
   Outlet,
 } from 'react-router-dom'
-import Login from './pages/login/login'
+import Login from './pages/login/Login'
 import Register from './pages/register/Register'
 import Navbar from './components/navbar/Navbar'
 import Leftbar from './components/leftbar/Leftbar'
