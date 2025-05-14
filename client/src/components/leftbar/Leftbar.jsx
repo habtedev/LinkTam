@@ -8,12 +8,11 @@ import Video from '../../assets/9.png'
 import Messsage from '../../assets/10.png'
 import BookmarksTwoToneIcon from '@mui/icons-material/BookmarksTwoTone'
 import SettingsIcon from '@mui/icons-material/Settings'
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext } from '../../context/AuthContext.jsx'
 import { useContext } from 'react'
 
-
 const Leftbar = () => {
-    const { currentUser } = useContext(AuthContext)
+  const { currentUser } = useContext(AuthContext)
   return (
     <div className="leftBar">
       <div className="continear">
@@ -61,7 +60,7 @@ const Leftbar = () => {
             <span>Bookmark</span>
           </div>
           <div className="item">
-              <SettingsIcon />
+            <SettingsIcon />
             <span>Settings</span>
           </div>
         </div>

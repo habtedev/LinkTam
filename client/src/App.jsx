@@ -15,22 +15,16 @@ import Home from './pages/home/Home'
 import Profile from './pages/profile/Profile'
 import './style.scss'
 import { DarkModeContext } from './context/DarkModeContext'
-import { AuthContext } from './context/AuthContext'
-import {
-  QueryClient,
-  QueryClientProvider
-} from '@tanstack/react-query'
-
-
+import { AuthContext } from './context/AuthContext.jsx'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 function App() {
   const { currentUser } = useContext(AuthContext)
   const { darkMode } = useContext(DarkModeContext)
-  
+
   const queryClient = new QueryClient()
   // Layout Component with proper string interpolation
   const Layout = () => {
-    
     return (
       <QueryClientProvider client={queryClient}>
         <div className={`theme-${darkMode ? 'dark' : 'light'}`}>

@@ -1,4 +1,5 @@
 import './rightbar.scss'
+import { AuthContext } from '../../context/AuthContext.jsx'
 
 const Rightbar = () => {
   return (

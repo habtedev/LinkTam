@@ -1,13 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom'
 import './login.scss'
 import HeaderLogin from '../headerLogin/Headerlogin'
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext } from '../../context/AuthContext.jsx'
 import { useContext, useState } from 'react'
 import { useSnackbar } from 'notistack'
 
 const Login = () => {
- const navigate = useNavigate()
-
+  const navigate = useNavigate()
 
   const [formData, setFormData] = useState({ username: '', password: '' })
   const [loading, setLoading] = useState(false)
@@ -32,15 +31,21 @@ const Login = () => {
     const username = formData.username.trim()
     const password = formData.password.trim()
     if (!username || !password) {
-      enqueueSnackbar('Username and password are required.', { variant: 'warning' })
+      enqueueSnackbar('Username and password are required.', {
+        variant: 'warning',
+      })
       return
     }
     if (username.length < 3) {
-      enqueueSnackbar('Username must be at least 3 characters.', { variant: 'warning' })
+      enqueueSnackbar('Username must be at least 3 characters.', {
+        variant: 'warning',
+      })
       return
     }
     if (password.length < 6) {
-      enqueueSnackbar('Password must be at least 6 characters.', { variant: 'warning' })
+      enqueueSnackbar('Password must be at least 6 characters.', {
+        variant: 'warning',
+      })
       return
     }
 
@@ -49,19 +54,23 @@ const Login = () => {
       const response = await login({ username, password })
 
       if (response?.userNotFound) {
-        enqueueSnackbar('User not found. Please check your username.', { variant: 'error' })
+        enqueueSnackbar('User not found. Please check your username.', {
+          variant: 'error',
+        })
         setLoading(false)
         return
       }
 
       if (response?.passwordMismatch) {
-        enqueueSnackbar('Incorrect password. Please try again.', { variant: 'error' })
+        enqueueSnackbar('Incorrect password. Please try again.', {
+          variant: 'error',
+        })
         setLoading(false)
         return
       }
 
       enqueueSnackbar(`Welcome back, ${username}!`, { variant: 'success' })
-      navigate ('/')
+      navigate('/')
       setFormData({ username: '', password: '' }) // Clear form
     } catch (err) {
       setLoading(false)
@@ -69,14 +78,18 @@ const Login = () => {
       if (errorResponse) {
         let errorMessage = 'An unexpected error occurred. Please try again.'
         if (typeof errorResponse === 'string') {
-          errorMessage = 'Login failed. Please check your credentials and try again.'
+          errorMessage =
+            'Login failed. Please check your credentials and try again.'
         } else {
-          errorMessage = errorResponse.error || errorResponse.message || errorMessage
+          errorMessage =
+            errorResponse.error || errorResponse.message || errorMessage
         }
         const variant = errorResponse.variant || 'error'
         enqueueSnackbar(errorMessage, { variant })
       } else {
-        enqueueSnackbar('Network error. Please check your connection.', { variant: 'error' })
+        enqueueSnackbar('Network error. Please check your connection.', {
+          variant: 'error',
+        })
       }
     }
   }

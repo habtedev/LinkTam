@@ -2,6 +2,7 @@ const dotenv = require('dotenv')
 const express = require('express')
 const userRoute = require('./routes/auth')
 const postRoute = require('./routes/posts')
+const userRoutes = require('./routes/user')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const multer = require('multer')
@@ -104,6 +105,7 @@ app.use('/api/posts', (req, res, next) => {
   }
 })
 app.use('/api/posts', postRoute)
+app.use('/api/users', userRoutes)
 
 const port = process.env.PORT || 5000
 

@@ -3,9 +3,10 @@ import ImageIcon from '../../assets/img.png'
 import MapIcon from '../../assets/map.png'
 import FriendIcon from '../../assets/friend.png'
 import { useContext, useState, useRef } from 'react'
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext } from '../../context/AuthContext.jsx'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { makeRequest } from '../../axios'
+import { useSnackbar } from 'notistack'
 
 const Share = () => {
   const [desc, setDesc] = useState('')
@@ -16,6 +17,7 @@ const Share = () => {
 
   const { currentUser } = useContext(AuthContext)
   const queryClient = useQueryClient()
+  const { enqueueSnackbar } = useSnackbar()
 
   const mutation = useMutation({
     mutationFn: async (newPost) => {
@@ -29,16 +31,20 @@ const Share = () => {
         },
       })
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ['posts'] })
       setDesc('')
       setFile(null)
       setError('')
       setLoading(false)
+      enqueueSnackbar('Your post was shared!', { variant: 'success' })
     },
     onError: (err) => {
       setLoading(false)
       setError('Failed to share your post. Please try again.')
+      enqueueSnackbar('Failed to share your post. Please try again.', {
+        variant: 'error',
+      })
       console.error(err)
     },
   })

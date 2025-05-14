@@ -10,7 +10,7 @@ import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
 import { Link } from 'react-router-dom'
 import { useContext } from 'react'
 import { DarkModeContext } from '../../context/DarkModeContext'
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext } from '../../context/AuthContext.jsx'
 
 const Navbar = () => {
   const { toggle, darkMode } = useContext(DarkModeContext)
