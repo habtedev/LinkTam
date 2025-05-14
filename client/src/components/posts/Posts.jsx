@@ -1,53 +1,34 @@
-import Post from "../post/Post"
-import "./posts.scss"
+import { makeRequest } from '../../axios'
+import Post from '../post/Post'
+import './posts.scss'
+import { useQuery } from '@tanstack/react-query'
 
 const Posts = () => {
-  
-   
-    //TEPORARY DATA 
-     const posts = [
-       {
-         id: 1,
-         name: 'John Doe',
-         userId: 1,
-         profilePic:
-           'https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600',
-         desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit voluptate odit nesciunt, recusandae dolores soluta ratione, accusantium eum veritatibus.',
-         img: 'https://images.pexels.com/photos/1234567/pexels-photo-1234567.jpeg?auto=compress&cs=tinysrgb&w=1600',
-       },
-       {
-         id: 2,
-         name: 'Jane Smith',
-         userId: 2,
-         profilePic:
-           'https://images.pexels.com/photos/1234567/pexels-photo-1234567.jpeg?auto=compress&cs=tinysrgb&w=1600',
-         desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-         img: 'https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600',
-       },
-       {
-         id: 3,
-         name: 'John Doe',
-         profilePic:
-           'https://images.pexels.com/photos/1234567/pexels-photo-1234567.jpeg?auto=compress&cs=tinysrgb&w=1600',
-         desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-         img: 'https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600',
-       },
-       {
-         id: 4,
-         name: 'Jane Smith',
-         profilePic:
-           'https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1600',
-         desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-         img: 'https://images.pexels.com/photos/1234567/pexels-photo-1234567.jpeg?auto=compress&cs=tinysrgb&w=1600',
-       },
-     ]
+  const { isLoading, error, data } = useQuery({
+    queryKey: ['posts'],
+    queryFn: () => makeRequest.get('/posts').then((res) => res.data),
+  })
+
+  console.log(data)
   return (
-     
     <div className="posts">
-     { posts.map(post => (
-      <Post post={post} key={post.id}/>
-      
-     ))}
+      {isLoading && <div>Loading posts...</div>}
+      {error && <div style={{ color: 'red' }}>Failed to load posts.</div>}
+      {Array.isArray(data) && data.length === 0 && !isLoading && !error && (
+        <div className="no-posts-card">
+          <img
+            src="https://res.cloudinary.com/di3ll9dgt/image/upload/v1747205657/user_uploads/6/rj5vmpiudjwetluuggkq.png"
+            alt="No posts yet"
+            className="no-posts-image"
+          />
+          <div className="no-posts-message">
+            No posts yet. Start the conversation!
+          </div>
+        </div>
+      )}
+      {data?.map((post) => (
+        <Post post={post} key={post.id} />
+      ))}
     </div>
   )
 }

@@ -1,3 +1,5 @@
+@use '../../style.scss' as *;
+
 /* Slide-in Animation */
 @keyframes slideIn {
   0% {
@@ -30,7 +32,7 @@
     animation: slideIn 1s ease-out;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    
+
     @media (max-width: 768px) {
       flex-direction: column;
       width: 100%;
@@ -40,7 +42,11 @@
 
     .left {
       flex: 1;
-      background: linear-gradient(rgba(106, 44, 229, 0.5), rgba(39, 11, 96, 0.5)), url('/login.jpg') center;
+      background: linear-gradient(
+          rgba(106, 44, 229, 0.5),
+          rgba(39, 11, 96, 0.5)
+        ),
+        url('/login.jpg') center;
       background-size: cover;
       height: 100%;
       padding: 50px;
@@ -131,7 +137,7 @@
         align-items: center;
         gap: 10px;
         margin-top: 20px;
-        
+
         span {
           font-size: 16px;
           color: #555;

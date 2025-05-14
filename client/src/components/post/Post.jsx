@@ -34,7 +34,24 @@ const Post = ({ post }) => {
         </div>
         <div className="content">
           <p>{post.desc}</p>
-          <img src={post.img} alt="" />
+          {/* Always show the image if post.img is a non-empty string */}
+          {typeof post.img === 'string' && post.img.trim() !== '' ? (
+            <img
+              src={post.img}
+              alt="post"
+              onError={(e) => {
+                e.target.onerror = null
+                e.target.src =
+                  'https://res.cloudinary.com/di3ll9dgt/image/upload/v1747205657/user_uploads/6/rj5vmpiudjwetluuggkq.png'
+              }}
+              style={{
+                maxWidth: '100%',
+                maxHeight: '500px',
+                borderRadius: '10px',
+                marginTop: '20px',
+              }}
+            />
+          ) : null}
         </div>
         <div className="info">
           <div className="item">

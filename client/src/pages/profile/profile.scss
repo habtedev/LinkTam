@@ -1,4 +1,5 @@
-@import '../../style.scss';
+@use "sass:color";
+@use '../../style.scss' as *;
 
 $profile-pic-size: 200px;
 $profile-pic-size-mobile: 150px;
@@ -133,7 +134,7 @@ $profile-pic-size-mobile: 150px;
             transition: background-color 0.3s ease, transform 0.3s ease;
 
             &:hover {
-              background-color: darken(#94a2de, 5%);
+              background-color: color.adjust(#94a2de, $lightness: -5%);
               transform: scale(1.05);
             }
           }

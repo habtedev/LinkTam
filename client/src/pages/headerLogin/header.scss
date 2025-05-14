@@ -1,3 +1,5 @@
+@use '../../style.scss' as *;
+
 /* Fade In Logo */
 @keyframes fadeInLogo {
   0% {
@@ -15,7 +17,7 @@
   background-color: #ffffff;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #E8ECF1;
+  border-bottom: 1px solid #e8ecf1;
   position: fixed;
   top: 0;
   left: 0;
@@ -38,14 +40,12 @@
     border: none;
   }
 
-
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   }
 }
-.register, .login {
-  padding-top: 30px; 
-}  
-
-
+.register,
+.login {
+  padding-top: 30px;
+}

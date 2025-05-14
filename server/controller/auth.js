@@ -106,11 +106,9 @@ const loginUser = async (req, res) => {
     }
 
     // Generate JWT token with expiration
-    const token = jwt.sign(
-      { id: data.id },
-      process.env.JWT_SECRET_KEY, // Use environment variable for secret key
-      { expiresIn: '1d' }, // Token expiration time (1 day)
-    )
+    const token = jwt.sign({ id: data.id }, process.env.JWT_SECRET_KEY, {
+      expiresIn: '1d',
+    })
 
     // Exclude password from the response data
     const { password: userPassword, ...userData } = data
@@ -118,8 +116,9 @@ const loginUser = async (req, res) => {
     // Set the JWT token as an HTTP-only cookie
     res.cookie('access_token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // Use secure flag in production
-      sameSite: 'none', 
+      secure: false, // for localhost (HTTP)
+      sameSite: 'lax', // for localhost (HTTP)
+      maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
     })
 
     // Return user data without password
@@ -132,14 +131,16 @@ const loginUser = async (req, res) => {
 
 const logOut = async (req, res) => {
   try {
-    res.clearCookie('access_token', {
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none'
-    }).status(200).json({ message: 'user logged out successfully' })
+    res
+      .clearCookie('access_token', {
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'none',
+      })
+      .status(200)
+      .json({ message: 'user logged out successfully' })
   } catch (error) {
     console.log('logoout error:', error.message)
     res.status(500).json({ error: 'Server error' })
-    
   }
 }
 

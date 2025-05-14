@@ -1,4 +1,4 @@
-@import '../../style.scss';
+@use '../../style.scss' as *;
 .rightbar {
   @include themify($themes) {
     flex: 3;

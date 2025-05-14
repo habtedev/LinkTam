@@ -1,4 +1,4 @@
-@import '../../style.scss';
+@use '../../style.scss' as *;
 
 /* Slide-in Animation */
 @keyframes slideIn {
@@ -50,7 +50,8 @@
 
   .left {
     flex: 1;
-    background: linear-gradient(rgba(106, 44, 229, 0.5), rgba(39, 11, 96, 0.5)), url('/register.jpg') center / cover no-repeat;
+    background: linear-gradient(rgba(106, 44, 229, 0.5), rgba(39, 11, 96, 0.5)),
+      url('/register.jpg') center / cover no-repeat;
     padding: 50px;
     display: flex;
     flex-direction: column;
