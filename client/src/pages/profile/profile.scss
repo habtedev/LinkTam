@@ -161,3 +161,23 @@ $profile-pic-size-mobile: 150px;
     }
   }
 }
+
+.profile-page {
+  @extend .responsive-container;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+
+  @media (max-width: 900px) {
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+  }
+
+  @media (max-width: 600px) {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+}

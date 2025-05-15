@@ -2,18 +2,37 @@
 
 .navbar {
   @include themify($themes) {
+    width: 100%;
+    min-height: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    height: 80px;
+    background-color: themed('bg');
+    box-shadow: 0 2px 8px 0 rgba(80, 80, 120, 0.04);
+    border-bottom: 1px solid themed('border');
+    color: themed('textColor');
     position: sticky;
     top: 0;
     z-index: 999;
-    background-color: themed('bg');
-    color: themed('textColor');
-    border-bottom: 1px solid themed('border');
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    box-shadow: 0 2px 8px 0 rgba(80, 80, 120, 0.04);
+    .search {
+      border: 1px solid themed('border');
+      background: themed('bgSoft');
+      input {
+        color: themed('textColor');
+        &::placeholder {
+          color: themed('textColorSoft');
+        }
+      }
+    }
+    .left span {
+      color: themed('logo');
+    }
+    .right .user span {
+      color: themed('textColor');
+    }
 
     .left {
       display: flex;
@@ -45,29 +64,28 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        padding: 5px 10px;
-        border: 1px solid themed('border');
+        @include themify($themes) {
+          border: 1px solid themed('border');
+        }
         border-radius: 5px;
         @include mobile {
           display: none;
         }
-
         svg {
           color: gray;
         }
-
         input {
           border: none;
           outline: none;
           width: 500px;
           font-size: 14px;
           background-color: transparent;
-          color: themed('textColor');
-
+          @include themify($themes) {
+            color: themed('textColor');
+          }
           @include tablet {
             width: 200px;
           }
-
           @include mobile {
             display: none;
           }
@@ -79,11 +97,12 @@
       display: flex;
       align-items: center;
       gap: 20px;
-
+      @include themify($themes) {
+        color: themed('textColor');
+      }
       @include mobile {
         display: none;
       }
-
       svg {
         cursor: pointer;
         transition: color 0.3s ease;
@@ -92,17 +111,14 @@
           color: #007bff;
         }
       }
-
       .user {
         display: flex;
         align-items: center;
         gap: 10px;
         cursor: pointer;
-
         @include tablet {
           display: none;
         }
-
         img {
           width: 32px;
           height: 32px;
@@ -110,25 +126,26 @@
           object-fit: cover;
           border: 2px solid #ccc;
         }
-
         span {
           font-weight: 500;
           font-size: 14px;
-          color: #333;
+          @include themify($themes) {
+            color: themed('textColor');
+          }
         }
       }
     }
-  }
 
-  // Logo fade-in animation
-  @keyframes fadeInLogo {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+    // Logo fade-in animation
+    @keyframes fadeInLogo {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   }
 }

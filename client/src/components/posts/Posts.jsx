@@ -1,13 +1,39 @@
 import { makeRequest } from '../../axios'
 import Post from '../post/Post'
+import Likes from '../likes/Likes'
 import './posts.scss'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 const Posts = () => {
+  const queryClient = useQueryClient()
   const { isLoading, error, data } = useQuery({
     queryKey: ['posts'],
     queryFn: () => makeRequest.get('/posts').then((res) => res.data),
   })
+
+  const handleOptimisticDelete = (postId) => {
+    // Optimistically remove the post from the UI
+    queryClient.setQueryData(['posts'], (old) =>
+      old ? old.filter((p) => p.id !== postId) : [],
+    )
+    // Send delete request
+    makeRequest.delete(`/posts/${postId}`).catch(() => {
+      // On error, refetch posts to restore
+      queryClient.invalidateQueries({ queryKey: ['posts'] })
+    })
+  }
+
+  const handleUpdate = async (postId, newDesc, newFile, prevImg) => {
+    const formData = new FormData()
+    formData.append('desc', newDesc)
+    if (newFile && newFile !== 'REMOVE') formData.append('file', newFile)
+    if (newFile === 'REMOVE') formData.append('removeImg', 'true')
+    if (prevImg) formData.append('prevImg', prevImg)
+    await makeRequest.put(`/posts/${postId}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    queryClient.invalidateQueries({ queryKey: ['posts'] })
+  }
 
   console.log(data)
   return (
@@ -27,7 +53,14 @@ const Posts = () => {
         </div>
       )}
       {data?.map((post) => (
-        <Post post={post} key={post.id} />
+        <Post
+          post={post}
+          key={post.id}
+          onDelete={handleOptimisticDelete}
+          onUpdate={handleUpdate}
+        >
+          <Likes postId={post.id} />
+        </Post>
       ))}
     </div>
   )

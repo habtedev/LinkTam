@@ -85,29 +85,39 @@ const Share = () => {
         {file && (
           <div
             className="preview-image-wrapper"
-            style={{ margin: '16px 0', textAlign: 'center' }}
+            style={{ margin: '18px 0', textAlign: 'center' }}
           >
             <img
               src={URL.createObjectURL(file)}
               alt="Preview"
               className="preview-image"
               style={{
-                maxWidth: '200px',
-                maxHeight: '200px',
-                borderRadius: '10px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                maxWidth: '260px',
+                maxHeight: '180px',
+                borderRadius: '18px',
+                boxShadow: '0 4px 16px rgba(0,0,0,0.10)',
+                border: '2px solid #5271ff',
+                margin: '0 auto',
+                display: 'block',
+                objectFit: 'cover',
+                transition: 'transform 0.2s cubic-bezier(.4,2,.6,1)',
               }}
+              onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.03)')}
+              onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}
             />
             <button
               type="button"
               style={{
                 display: 'block',
-                margin: '8px auto 0',
-                background: '#eee',
+                margin: '10px auto 0',
+                background: '#f5f5f7',
                 border: 'none',
-                borderRadius: '6px',
-                padding: '4px 12px',
+                borderRadius: '8px',
+                padding: '6px 18px',
                 cursor: 'pointer',
+                fontWeight: 500,
+                color: '#333',
+                boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
               }}
               onClick={() => setFile(null)}
             >
@@ -141,8 +151,38 @@ const Share = () => {
             </div>
           </div>
           <div className="right">
-            <button onClick={handleSubmit} disabled={loading}>
-              {loading ? 'Sharing...' : 'Share'}
+            <button
+              onClick={handleSubmit}
+              disabled={loading || (!desc && !file)}
+              className="modern-share-btn"
+              style={{
+                background: 'linear-gradient(90deg, #4f8cff 0%, #38e8ff 100%)',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '20px',
+                padding: '10px 32px',
+                fontWeight: 700,
+                fontSize: '1.1rem',
+                boxShadow: '0 2px 12px rgba(79,140,255,0.13)',
+                cursor: loading || (!desc && !file) ? 'not-allowed' : 'pointer',
+                transition: 'background 0.3s',
+                letterSpacing: '0.5px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+              }}
+            >
+              {loading ? (
+                <>
+                  <svg style={{marginRight: 6, verticalAlign: 'middle'}} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                  Sharing...
+                </>
+              ) : (
+                <>
+                  <svg style={{marginRight: 6, verticalAlign: 'middle'}} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                  Share
+                </>
+              )}
             </button>
           </div>
         </div>

@@ -3,6 +3,8 @@ const express = require('express')
 const userRoute = require('./routes/auth')
 const postRoute = require('./routes/posts')
 const userRoutes = require('./routes/user')
+const commentRoutes = require('./routes/comments')
+const likeRoutes = require('./routes/likes')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const multer = require('multer')
@@ -85,7 +87,7 @@ const dbConnections = require('./db/dbConfig')
 // Routes
 app.use('/api/auth', userRoute)
 app.use('/api/posts', (req, res, next) => {
-  if (req.method === 'POST') {
+  if (req.method === 'POST' || req.method === 'PUT') {
     upload.single('file')(req, res, (err) => {
       if (err instanceof multer.MulterError) {
         // Multer-specific errors
@@ -106,6 +108,8 @@ app.use('/api/posts', (req, res, next) => {
 })
 app.use('/api/posts', postRoute)
 app.use('/api/users', userRoutes)
+app.use('/api/comments', commentRoutes)
+app.use('/api/likes', likeRoutes)
 
 const port = process.env.PORT || 5000
 
