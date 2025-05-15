@@ -5,6 +5,8 @@ const postRoute = require('./routes/posts')
 const userRoutes = require('./routes/user')
 const commentRoutes = require('./routes/comments')
 const likeRoutes = require('./routes/likes')
+const followRoutes = require('./routes/follow')
+const bookmarkRoutes = require('./routes/bookmark')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const multer = require('multer')
@@ -110,6 +112,8 @@ app.use('/api/posts', postRoute)
 app.use('/api/users', userRoutes)
 app.use('/api/comments', commentRoutes)
 app.use('/api/likes', likeRoutes)
+app.use('/api/follows', followRoutes)
+app.use('/api/bookmarks', bookmarkRoutes)
 
 const port = process.env.PORT || 5000
 

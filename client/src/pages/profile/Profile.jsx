@@ -13,6 +13,9 @@ import { useContext, useRef, useState, useEffect } from 'react'
 import { AuthContext } from '../../context/AuthContext.jsx'
 import { makeRequest } from '../../axios'
 import { useParams } from 'react-router-dom'
+import { useSnackbar } from 'notistack'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 
 const Profile = () => {
   const { id } = useParams()
@@ -20,8 +23,17 @@ const Profile = () => {
   const [profilePic, setProfilePic] = useState(currentUser?.profilePic || '')
   const [coverPic, setCoverPic] = useState(currentUser?.coverPic || '')
   const [name, setName] = useState(currentUser?.name || '')
+  const [isFollowing, setIsFollowing] = useState(false)
+  const [followCounts, setFollowCounts] = useState({
+    followers: 0,
+    following: 0,
+  })
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [editNameOpen, setEditNameOpen] = useState(false)
+  const [newName, setNewName] = useState(name)
   const profileInputRef = useRef()
   const backgroundInputRef = useRef()
+  const { enqueueSnackbar } = useSnackbar()
 
   // Fetch user info from database on mount or when id changes
   useEffect(() => {
@@ -32,6 +44,24 @@ const Profile = () => {
       setName(res.data.name)
     })
   }, [id])
+
+  // Fetch follow state and counts
+  useEffect(() => {
+    if (!id || !currentUser) return
+    if (String(currentUser.id) === String(id)) return // Don't fetch for self
+    makeRequest
+      .get(`/follows/state/${id}`)
+      .then((res) => setIsFollowing(res.data.isFollowing))
+      .catch(() => setIsFollowing(false))
+  }, [id, currentUser])
+
+  useEffect(() => {
+    if (!id) return
+    makeRequest
+      .get(`/follows/counts/${id}`)
+      .then((res) => setFollowCounts(res.data))
+      .catch(() => setFollowCounts({ followers: 0, following: 0 }))
+  }, [id, isFollowing])
 
   const updateProfilePicInContext = (newUrl) => {
     if (typeof setCurrentUser === 'function') {
@@ -78,6 +108,67 @@ const Profile = () => {
       }
     } finally {
       // no-op
+    }
+  }
+
+  const handleFollow = async () => {
+    if (String(currentUser.id) === String(id)) {
+      enqueueSnackbar("You can't follow yourself!", { variant: 'warning' })
+      return
+    }
+    try {
+      await makeRequest.post(`/follows/${id}`)
+      setIsFollowing(true)
+      enqueueSnackbar('Followed successfully!', { variant: 'success' })
+    } catch {
+      enqueueSnackbar('Failed to follow user.', { variant: 'error' })
+    }
+  }
+
+  const handleUnfollow = async () => {
+    try {
+      await makeRequest.delete(`/follows/${id}`)
+      setIsFollowing(false)
+      enqueueSnackbar('Unfollowed successfully!', { variant: 'info' })
+    } catch {
+      enqueueSnackbar('Failed to unfollow user.', { variant: 'error' })
+    }
+  }
+
+  const isOwnProfile = String(currentUser.id) === String(id)
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleMenuClose = () => {
+    setAnchorEl(null)
+  }
+  const handleEditNameOpen = () => {
+    setEditNameOpen(true)
+    setAnchorEl(null)
+  }
+  const handleEditNameClose = () => {
+    setEditNameOpen(false)
+    setNewName(name)
+  }
+  const handleNameChange = (e) => {
+    setNewName(e.target.value)
+  }
+  const handleNameUpdate = async () => {
+    try {
+      await makeRequest.put(`/users/${id}`, { name: newName })
+      setName(newName)
+      if (isOwnProfile) {
+        setCurrentUser({ ...currentUser, name: newName })
+        localStorage.setItem(
+          'user',
+          JSON.stringify({ ...currentUser, name: newName }),
+        )
+      }
+      enqueueSnackbar('Name updated!', { variant: 'success' })
+      setEditNameOpen(false)
+    } catch {
+      enqueueSnackbar('Failed to update name.', { variant: 'error' })
     }
   }
 
@@ -150,16 +241,68 @@ const Profile = () => {
                 <LanguageIcon />
                 <span>LinkTam</span>
               </div>
+              <div className="item">
+                <b>{followCounts.followers}</b> Followers
+              </div>
+              <div className="item">
+                <b>{followCounts.following}</b> Following
+              </div>
             </div>
-            <button>follow</button>
+            {String(currentUser.id) !== String(id) &&
+              (isFollowing ? (
+                <button className="follow-btn" onClick={handleUnfollow}>
+                  Unfollow
+                </button>
+              ) : (
+                <button className="follow-btn" onClick={handleFollow}>
+                  Follow
+                </button>
+              ))}
           </div>
           <div className="right">
             <span>
               <EmailOutlinedIcon />
             </span>
-            <span>
-              <MoreVertIcon />
-            </span>
+            {isOwnProfile && (
+              <span onClick={handleMenuOpen} style={{ cursor: 'pointer' }}>
+                <MoreVertIcon />
+              </span>
+            )}
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            >
+              <MenuItem onClick={handleEditNameOpen}>Update Name</MenuItem>
+              {/* Add more options here if needed */}
+            </Menu>
+            {/* Name Edit Dialog */}
+            {editNameOpen && (
+              <div className="edit-name-modal">
+                <div className="modal-content">
+                  <h3>Update Name</h3>
+                  <input
+                    type="text"
+                    value={newName}
+                    onChange={handleNameChange}
+                    className="edit-name-input"
+                  />
+                  <div className="modal-actions">
+                    <button onClick={handleNameUpdate} className="save-btn">
+                      Save
+                    </button>
+                    <button
+                      onClick={handleEditNameClose}
+                      className="cancel-btn"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <Posts />

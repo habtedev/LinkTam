@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS follows (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  followerId INT NOT NULL,
+  followedId INT NOT NULL,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY unique_follow (followerId, followedId),
+  FOREIGN KEY (followerId) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (followedId) REFERENCES users(id) ON DELETE CASCADE
+);

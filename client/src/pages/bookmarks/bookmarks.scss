@@ -1,0 +1,22 @@
+.bookmarks-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 32px 0 0 0;
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #5271ff;
+    text-align: center;
+  }
+  .loading,
+  .empty {
+    text-align: center;
+    color: #888;
+    font-size: 1.1rem;
+    margin-top: 32px;
+  }
+  .post {
+    margin-bottom: 32px;
+  }
+}

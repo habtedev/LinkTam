@@ -1,0 +1,30 @@
+.settings-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 32px 0 0 0;
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #5271ff;
+    text-align: center;
+  }
+  .section {
+    background: #f7f9ff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(82, 113, 255, 0.06);
+    padding: 24px 20px;
+    margin-bottom: 24px;
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #415ad6;
+    }
+    .coming-soon {
+      color: #aaa;
+      font-size: 1rem;
+      font-style: italic;
+    }
+  }
+}

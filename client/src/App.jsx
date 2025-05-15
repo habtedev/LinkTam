@@ -13,6 +13,8 @@ import Leftbar from './components/leftbar/Leftbar'
 import Rightbar from './components/rightbar/Rightbar'
 import Home from './pages/home/Home'
 import Profile from './pages/profile/Profile'
+import Bookmarks from './pages/bookmarks/Bookmarks'
+import Settings from './pages/settings/Settings'
 import './style.scss'
 import { DarkModeContext } from './context/DarkModeContext'
 import { AuthContext } from './context/AuthContext.jsx'
@@ -68,6 +70,8 @@ function App() {
           {/* Child Routes */}
           <Route index element={<Home />} />
           <Route path="profile/:id" element={<Profile />} />
+          <Route path="bookmarks" element={<Bookmarks />} />
+          <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>
     </Router>

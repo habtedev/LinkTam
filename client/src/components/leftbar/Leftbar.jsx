@@ -53,13 +53,23 @@ const Leftbar = () => {
         <hr />
         <div className="menu">
           <span>Your Shortcuts</span>
-          <div className="item">
+          <div
+            className="item"
+            onClick={() => (window.location.href = '/bookmarks')}
+            style={{
+              pointerEvents: currentUser ? 'auto' : 'none',
+              opacity: currentUser ? 1 : 0.5,
+            }}
+          >
             <span>
               <BookmarksTwoToneIcon />
             </span>
             <span>Bookmark</span>
           </div>
-          <div className="item">
+          <div
+            className="item"
+            onClick={() => (window.location.href = '/settings')}
+          >
             <SettingsIcon />
             <span>Settings</span>
           </div>

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react'
+import React, { useState, useRef, useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -7,6 +7,8 @@ import MenuItem from '@mui/material/MenuItem'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import TextsmsOutlinedIcon from '@mui/icons-material/TextsmsOutlined'
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined'
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
+import BookmarkIcon from '@mui/icons-material/Bookmark'
 import Comments from '../comments/Comments'
 import Likes from '../likes/Likes'
 import { AuthContext } from '../../context/AuthContext'
@@ -27,6 +29,7 @@ const Post = ({ post, onDelete, onUpdate }) => {
   const [editFile, setEditFile] = useState(null)
   const [updateLoading, setUpdateLoading] = useState(false)
   const [showShareMenu, setShowShareMenu] = useState(false)
+  const [bookmarked, setBookmarked] = useState(false)
   const fileInputRef = useRef()
   const open = Boolean(anchorEl)
   const { currentUser } = useContext(AuthContext)
@@ -121,6 +124,34 @@ const Post = ({ post, onDelete, onUpdate }) => {
     }
   }
 
+  const isOwnPost = currentUser && post.userId === currentUser.id
+
+  // Fetch bookmark state for this post
+  useEffect(() => {
+    if (!currentUser) return
+    makeRequest.get('/bookmarks').then((res) => {
+      setBookmarked(res.data.includes(post.id))
+    })
+  }, [post.id, currentUser])
+
+  const handleBookmark = async () => {
+    if (isOwnPost) {
+      enqueueSnackbar("You can't bookmark your own post.", {
+        variant: 'warning',
+      })
+      return
+    }
+    if (bookmarked) {
+      await makeRequest.delete(`/bookmarks/${post.id}`)
+      setBookmarked(false)
+      enqueueSnackbar('Removed from bookmarks', { variant: 'info' })
+    } else {
+      await makeRequest.post('/bookmarks', { postId: post.id })
+      setBookmarked(true)
+      enqueueSnackbar('Saved to bookmarks', { variant: 'success' })
+    }
+  }
+
   return (
     <div className="post">
       <div className="container">
@@ -209,6 +240,21 @@ const Post = ({ post, onDelete, onUpdate }) => {
               />
             )}
           </div>
+          {/* Bookmark icon only for posts not owned by the current user */}
+          {!isOwnPost && (
+            <span
+              className="bookmark-btn"
+              onClick={handleBookmark}
+              title={bookmarked ? 'Remove Bookmark' : 'Save Bookmark'}
+              style={{ marginLeft: 'auto', cursor: 'pointer' }}
+            >
+              {bookmarked ? (
+                <BookmarkIcon style={{ color: '#5271ff' }} />
+              ) : (
+                <BookmarkBorderIcon style={{ color: '#aaa' }} />
+              )}
+            </span>
+          )}
         </div>
         {commentOpen && post.id && (
           <Comments postId={post.id} setCommentCount={setCommentCount} />

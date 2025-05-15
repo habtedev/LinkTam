@@ -5,6 +5,7 @@ const {
   uploadProfilePic,
   uploadBackgroundPic,
   getUserById,
+  updateUserName,
 } = require('../controller/user')
 const { verifyToken } = require('../middleware/auth')
 const upload = require('../middleware/upload')
@@ -27,5 +28,8 @@ router.post(
 
 // Get user by id
 router.get('/:id', getUserById)
+
+// Update user name
+router.put('/:id', verifyToken, updateUserName)
 
 module.exports = router

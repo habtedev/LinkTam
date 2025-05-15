@@ -42,8 +42,36 @@ const getUserById = (req, res) => {
   })
 }
 
+// Update user name
+const updateUserName = (req, res) => {
+  const userId = req.params.id
+  const { name } = req.body
+  console.log('[UPDATE NAME]', { userId, name, userInfo: req.userInfo }) // DEBUG LOG
+  if (!name || typeof name !== 'string' || !name.trim()) {
+    return res.status(400).json({ message: 'Name is required.' })
+  }
+  // Only allow user to update their own name
+  if (parseInt(userId) !== req.userInfo.id) {
+    return res.status(403).json({ message: 'Unauthorized' })
+  }
+  const q = 'UPDATE users SET name = ? WHERE id = ?'
+  dbConnections.query(q, [name.trim(), userId], (err, result) => {
+    if (err) {
+      console.log('[UPDATE NAME ERROR]', err) // DEBUG LOG
+      return res.status(500).json({ message: 'Database error', error: err })
+    }
+    if (result.affectedRows === 0) {
+      console.log('[UPDATE NAME] No user found for id', userId) // DEBUG LOG
+      return res.status(404).json({ message: 'User not found' })
+    }
+    console.log('[UPDATE NAME SUCCESS]', { userId, name: name.trim() }) // DEBUG LOG
+    return res.status(200).json({ name: name.trim() })
+  })
+}
+
 module.exports = {
   uploadProfilePic,
   uploadBackgroundPic,
   getUserById,
+  updateUserName,
 }
