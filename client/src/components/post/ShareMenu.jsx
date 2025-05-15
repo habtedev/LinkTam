@@ -37,8 +37,11 @@ const ShareMenu = ({ postId, onShare, onClose }) => {
         listStyle: 'none',
         overflow: 'hidden',
         animation: 'fadeIn 0.18s',
+        textAlign: 'left', // Ensure left alignment
+        alignItems: 'flex-start', // For flex context if any
       }}
     >
+      {/* Copy link to clipboard */}
       <li>
         <button
           className="share-link-btn"
@@ -48,6 +51,7 @@ const ShareMenu = ({ postId, onShare, onClose }) => {
           🔗 Copy Link
         </button>
       </li>
+      {/* Share to LinkedIn */}
       <li>
         <button
           className="share-linkedin-btn"
@@ -57,6 +61,7 @@ const ShareMenu = ({ postId, onShare, onClose }) => {
           in LinkedIn
         </button>
       </li>
+      {/* Share to Telegram */}
       <li>
         <button
           className="share-telegram-btn"
@@ -66,6 +71,7 @@ const ShareMenu = ({ postId, onShare, onClose }) => {
           ✈️ Telegram
         </button>
       </li>
+      {/* Share to WhatsApp */}
       <li>
         <button
           className="share-whatsapp-btn"
@@ -75,6 +81,7 @@ const ShareMenu = ({ postId, onShare, onClose }) => {
           🟢 WhatsApp
         </button>
       </li>
+      {/* Share to Twitter/X */}
       <li>
         <button
           className="share-x-btn"
@@ -84,6 +91,7 @@ const ShareMenu = ({ postId, onShare, onClose }) => {
           𝕏 Twitter/X
         </button>
       </li>
+      {/* Share to Facebook */}
       <li>
         <button
           className="share-facebook-btn"
@@ -93,6 +101,7 @@ const ShareMenu = ({ postId, onShare, onClose }) => {
           f Facebook
         </button>
       </li>
+      {/* Share to Reddit */}
       <li>
         <button
           className="share-reddit-btn"
@@ -102,6 +111,7 @@ const ShareMenu = ({ postId, onShare, onClose }) => {
           👽 Reddit
         </button>
       </li>
+      {/* Share via Email */}
       <li>
         <button
           className="share-email-btn"
