@@ -157,7 +157,7 @@ const Post = ({ post, onDelete, onUpdate }) => {
       <div className="container">
         <div className="user">
           <div className="userInfo">
-            <img src={post.profilePic} alt="" />
+            <img src={post.profilePic || '/Avater.png'} alt="" />
             <div className="details">
               <Link
                 to={`/profile/${post.userId}`}

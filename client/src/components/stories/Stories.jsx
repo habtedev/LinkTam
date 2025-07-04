@@ -32,7 +32,10 @@ const Stories = () => {
     <div className="stories">
       {currentUser && (
         <div key={currentUser.id} className="story">
-          <img src={currentUser.profilePic} alt={currentUser.name} />
+          <img
+            src={currentUser.profilePic || '/Avater.png'}
+            alt={currentUser.name}
+          />
           <span>{currentUser.name}</span>
           <button>+</button>
         </div>
